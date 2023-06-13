@@ -74,7 +74,6 @@ export default function ShoContextProvider({ children }: IProps) {
   }, [pagination.currentPage]);
 
   useEffect(() => {
-    console.log(order);
     if (currentCategory == "all") {
       fetchAllProductsInOrder();
     } else {
