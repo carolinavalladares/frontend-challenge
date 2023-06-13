@@ -13,6 +13,8 @@ interface IShopContext {
   currentCategory: string;
   updateCurrentCategory: (category: string) => void;
   setCurrentPage: (page: number) => void;
+  order: { sortOrder?: string; sortField?: string } | null;
+  updateOrder: (field: string) => void;
 }
 
 interface IProps {
@@ -30,6 +32,10 @@ export default function ShoContextProvider({ children }: IProps) {
     currentPage: 0,
     itemsPerPage: 12,
   });
+  const [order, setOrder] = useState<{
+    sortOrder?: string;
+    sortField?: string;
+  } | null>(null);
 
   useEffect(() => {
     fetchAllProducts();
@@ -37,6 +43,7 @@ export default function ShoContextProvider({ children }: IProps) {
 
   useEffect(() => {
     handlePagination(productCount);
+    updateOrder();
   }, [productCount]);
 
   useEffect(() => {
@@ -47,15 +54,33 @@ export default function ShoContextProvider({ children }: IProps) {
     }
 
     handlePagination(productCount);
+    updateOrder();
   }, [currentCategory]);
 
   useEffect(() => {
     if (currentCategory == "all") {
-      fetchAllProducts();
+      if (order == null) {
+        fetchAllProducts();
+      } else {
+        fetchAllProductsInOrder();
+      }
     } else {
-      fetchProductsByCategory();
+      if (order == null) {
+        fetchProductsByCategory();
+      } else {
+        fetchProductsByCategoryInOrder();
+      }
     }
   }, [pagination.currentPage]);
+
+  useEffect(() => {
+    console.log(order);
+    if (currentCategory == "all") {
+      fetchAllProductsInOrder();
+    } else {
+      fetchProductsByCategoryInOrder();
+    }
+  }, [order]);
 
   const fetchAllProducts = async () => {
     try {
@@ -142,6 +167,95 @@ export default function ShoContextProvider({ children }: IProps) {
     }
   };
 
+  const fetchAllProductsInOrder = async () => {
+    try {
+      const req = await fetch("http://localhost:3333", {
+        method: "POST",
+
+        headers: {
+          "Content-Type": "application/json",
+        },
+
+        body: JSON.stringify({
+          query: `query($page:Int,$perPage: Int, $sortOrder: String, $sortField: String){
+            allProducts(page: $page, perPage: $perPage, sortField:$sortField, sortOrder:$sortOrder){
+                name, 
+                description,
+                category,
+                image_url,
+                price_in_cents,
+                id
+              }
+              
+              _allProductsMeta{
+                count
+              }
+    }`,
+          variables: {
+            page: pagination.currentPage,
+            perPage: pagination.itemsPerPage,
+            sortOrder: order?.sortOrder,
+            sortField: order?.sortField,
+          },
+        }),
+      });
+
+      const resp: {
+        data: { allProducts: IProduct[]; _allProductsMeta: { count: number } };
+      } = await req.json();
+
+      setProducts(resp.data.allProducts);
+      setProductCount(resp.data._allProductsMeta.count);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchProductsByCategoryInOrder = async () => {
+    try {
+      const req = await fetch("http://localhost:3333", {
+        method: "POST",
+
+        headers: {
+          "Content-Type": "application/json",
+        },
+
+        body: JSON.stringify({
+          query: `query ($filter:ProductFilter, $page: Int,$perPage: Int,$sortOrder: String, $sortField: String){
+              allProducts(filter: $filter,page:$page,perPage:$perPage, sortField:$sortField, sortOrder:$sortOrder){
+                  name, 
+                  description,
+                  category,
+                  image_url,
+                  price_in_cents,
+                  id
+                }
+                
+                _allProductsMeta(filter:$filter){
+                  count
+                }
+      }`,
+          variables: {
+            filter: { category: currentCategory },
+            page: pagination.currentPage,
+            perPage: pagination.itemsPerPage,
+            sortOrder: order?.sortOrder,
+            sortField: order?.sortField,
+          },
+        }),
+      });
+
+      const resp: {
+        data: { allProducts: IProduct[]; _allProductsMeta: { count: number } };
+      } = await req.json();
+
+      setProducts(resp.data.allProducts);
+      setProductCount(resp.data._allProductsMeta.count);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handlePagination = (productCount: number) => {
     const pagesCount = productCount / pagination.itemsPerPage;
 
@@ -186,6 +300,23 @@ export default function ShoContextProvider({ children }: IProps) {
     setCurrentCategory(category);
   };
 
+  const updateOrder = (field?: string) => {
+    if (!field) {
+      setOrder(null);
+      return;
+    }
+
+    if (field == "new") {
+      setOrder({ sortOrder: "DESC", sortField: "created_at" });
+    } else if (field == "price-desc") {
+      setOrder({ sortOrder: "DESC", sortField: "price_in_cents" });
+    } else if (field == "price-asc") {
+      setOrder({ sortOrder: "ASC", sortField: "price_in_cents" });
+    } else if (field == "sales") {
+      setOrder({ sortOrder: "DESC", sortField: "sales" });
+    }
+  };
+
   return (
     <ShopContext.Provider
       value={{
@@ -198,6 +329,8 @@ export default function ShoContextProvider({ children }: IProps) {
         currentCategory,
         updateCurrentCategory,
         setCurrentPage,
+        order,
+        updateOrder,
       }}
     >
       {children}

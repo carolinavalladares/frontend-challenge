@@ -1,7 +1,7 @@
 "use client";
 import useShop from "@/hooks/useShop";
 import { styled } from "styled-components";
-import { useState } from "react";
+import Filter from "./Filter";
 import ProductCard from "./ProductCard";
 import Pagination from "./Pagination";
 
@@ -68,7 +68,7 @@ export default function Showcase() {
           </button>
         </TabsContainer>
 
-        <div>filter</div>
+        <Filter />
       </div>
 
       <div>

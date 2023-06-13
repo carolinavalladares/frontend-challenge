@@ -13,6 +13,8 @@ export default function useShop() {
     currentCategory,
     updateCurrentCategory,
     setCurrentPage,
+    order,
+    updateOrder,
   } = useContext(ShopContext);
 
   return {
@@ -25,5 +27,7 @@ export default function useShop() {
     currentCategory,
     updateCurrentCategory,
     setCurrentPage,
+    order,
+    updateOrder,
   };
 }
