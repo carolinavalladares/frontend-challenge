@@ -3,6 +3,7 @@ import { IProduct } from "@/types";
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import Image from "next/image";
+import formatPrice from "@/util/formatPrice";
 
 export default function Product() {
   const [product, setProduct] = useState<IProduct | undefined>(undefined);
@@ -48,7 +49,7 @@ export default function Product() {
   }
 
   return (
-    <div>
+    <div className="flex gap-8">
       <div>
         <Image
           width={640}
@@ -56,23 +57,51 @@ export default function Product() {
           src={product.image_url as string}
           alt={`imagem ${product.name}`}
           priority
+          className="max-w-none"
         />
       </div>
 
-      <div>
-        <p>{product.category}</p>
-        <p>{product.name}</p>
-        <p>{product.name}</p>
+      <div className="flex flex-col">
+        <p className="text-[#41414D] ">
+          {product.category == "mugs"
+            ? "Caneca"
+            : product.category
+            ? "Camisa"
+            : "Categoria"}
+        </p>
+        <h2 className="font-light text-[32px] text-[#41414D] mt-3 leading-none">
+          {product.name}
+        </h2>
+        <p className="text-[#09090A] font-semibold text-xl mt-1 ">
+          R$ {formatPrice(product.price_in_cents)}
+        </p>
 
-        <p>
+        <p className="text-xs text-[#41414D] mt-6 mb-14">
           *Frete de R$40,00 para todo o Brasil. Grátis para compras acima de
           R$900,00.
         </p>
 
-        <div>
-          <h2>Descrição</h2>
-          <p>{product.description}</p>
+        <div className="flex-1">
+          <h3 className="font-medium text-[#737380] text-base mb-2">
+            DESCRIÇÃO
+          </h3>
+          <p className="text-sm text-[#41414D] leading-normal">
+            {product.description}
+          </p>
         </div>
+
+        <button
+          title={`adicionar ${product.name} ao carrinho`}
+          className="uppercase text-white bg-[#115D8C] flex items-center justify-center h-11 gap-3 rounded"
+        >
+          <Image
+            width={24}
+            height={24}
+            alt="ícone adicionar ao carrinho"
+            src={"/icons/add-to-cart-icon.png"}
+          />
+          <span>Adicionar ao carrinho</span>
+        </button>
       </div>
     </div>
   );

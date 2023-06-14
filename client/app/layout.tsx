@@ -21,7 +21,7 @@ export default function RootLayout({
       <body className={`${inter.className}`}>
         <ShoContextProvider>
           <Nav />
-          <div className="max-w-screen-lg m-auto">{children}</div>
+          <div className="max-w-[1120px] m-auto">{children}</div>
         </ShoContextProvider>
       </body>
     </html>

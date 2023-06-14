@@ -13,7 +13,7 @@ const sairaStencilOne = Saira_Stencil_One({
 export default function Nav() {
   return (
     <nav className="bg-white pt-[33px] pb-[23px]">
-      <div className="max-w-screen-lg m-auto flex items-center justify-between">
+      <div className="max-w-[1120px] m-auto flex items-center justify-between">
         <Link title="capputeeno" href={"/"}>
           <h1
             className={`${sairaStencilOne.className} text-[#5d5d6d] font-normal text-[40px] leading-none`}
