@@ -4,6 +4,7 @@ import useShop from "@/hooks/useShop";
 import Filter from "./Filter";
 import ProductCard from "./ProductCard";
 import Pagination from "./Pagination";
+import Skeleton from "./Skeleton";
 
 export default function Showcase() {
   const { products, updateCurrentCategory, currentCategory } = useShop();
@@ -23,8 +24,8 @@ export default function Showcase() {
             className={`${
               currentCategory == "all"
                 ? "font-semibold border-b-[#ffa585] text-[#41414d]"
-                : null
-            } uppercase text-base font-normal text-[#737380] border-b-4 border-b-transparent`}
+                : "border-b-transparent"
+            } uppercase text-base font-normal text-[#737380] border-b-4`}
             onClick={(e) => handleTabs(e)}
             name="all"
           >
@@ -34,8 +35,8 @@ export default function Showcase() {
             className={`${
               currentCategory == "t-shirts"
                 ? "font-semibold border-b-[#ffa585] text-[#41414d]"
-                : null
-            } uppercase text-base font-normal text-[#737380] border-b-4 border-b-transparent`}
+                : "border-b-transparent"
+            } uppercase text-base font-normal text-[#737380] border-b-4`}
             onClick={(e) => handleTabs(e)}
             name="t-shirts"
           >
@@ -45,8 +46,8 @@ export default function Showcase() {
             className={`${
               currentCategory == "mugs"
                 ? "font-semibold border-b-[#ffa585] text-[#41414d]"
-                : null
-            } uppercase text-base font-normal text-[#737380] border-b-4 border-b-transparent`}
+                : "border-b-transparent"
+            } uppercase text-base font-normal text-[#737380] border-b-4 `}
             onClick={(e) => handleTabs(e)}
             name="mugs"
           >
@@ -61,11 +62,28 @@ export default function Showcase() {
         <Pagination />
 
         <div className="mt-8 mb-[74px]">
-          <div className="grid grid-cols-4 gap-x-8 gap-y-6">
-            {products.map((product, index) => {
-              return <ProductCard product={product} key={index} />;
-            })}
-          </div>
+          {products.length > 0 ? (
+            <div className="grid grid-cols-4 gap-x-8 gap-y-6">
+              {products.map((product, index) => {
+                return <ProductCard product={product} key={index} />;
+              })}
+            </div>
+          ) : (
+            <div className="grid grid-cols-4 gap-x-8 gap-y-6">
+              <Skeleton className="h-[300px] w-full" />
+              <Skeleton className="h-[300px] w-full" />
+              <Skeleton className="h-[300px] w-full" />
+              <Skeleton className="h-[300px] w-full" />
+              <Skeleton className="h-[300px] w-full" />
+              <Skeleton className="h-[300px] w-full" />
+              <Skeleton className="h-[300px] w-full" />
+              <Skeleton className="h-[300px] w-full" />
+              <Skeleton className="h-[300px] w-full" />
+              <Skeleton className="h-[300px] w-full" />
+              <Skeleton className="h-[300px] w-full" />
+              <Skeleton className="h-[300px] w-full" />
+            </div>
+          )}
         </div>
 
         <Pagination />

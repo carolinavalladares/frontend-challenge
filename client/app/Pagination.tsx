@@ -2,9 +2,10 @@
 import useShop from "@/hooks/useShop";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import Skeleton from "./Skeleton";
 
 export default function Pagination() {
-  const { pagination, updateCurrentPage, setCurrentPage } = useShop();
+  const { pagination, updateCurrentPage, setCurrentPage, products } = useShop();
   const [pages, setPages] = useState<number[]>([]);
 
   useEffect(() => {
@@ -14,6 +15,14 @@ export default function Pagination() {
     }
     setPages(arr);
   }, [pagination]);
+
+  if (products.length <= 0) {
+    return (
+      <div className="flex items-center justify-end">
+        <Skeleton className="h-8 w-44" />
+      </div>
+    );
+  }
 
   return (
     <div className="flex items-center justify-end gap-2">

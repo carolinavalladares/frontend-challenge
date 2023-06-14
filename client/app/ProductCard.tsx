@@ -2,6 +2,7 @@ import { IProduct } from "@/types";
 import formatPrice from "@/util/formatPrice";
 import Image from "next/image";
 import Link from "next/link";
+import Skeleton from "./Skeleton";
 
 interface IProps {
   product: IProduct;
@@ -9,7 +10,7 @@ interface IProps {
 
 export default function ProductCard({ product }: IProps) {
   return (
-    <div className="bg-white rounded-t-lg max-w-[256px] h-[300px] overflow-hidden">
+    <div className="bg-white rounded-t-lg max-w-[256px]  overflow-hidden">
       <Link title={`${product.name}`} href={`/product/${product.id}`}>
         <Image
           width={256}
