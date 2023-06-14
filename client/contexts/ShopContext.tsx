@@ -98,7 +98,9 @@ export default function ShoContextProvider({ children }: IProps) {
                 category,
                 image_url,
                 price_in_cents,
-                id
+                id,
+                sales,
+                created_at
               }
               
               _allProductsMeta{
@@ -140,7 +142,9 @@ export default function ShoContextProvider({ children }: IProps) {
                   category,
                   image_url,
                   price_in_cents,
-                  id
+                  id,
+                  sales,
+                  created_at
                 }
                 
                 _allProductsMeta(filter:$filter){
@@ -183,7 +187,9 @@ export default function ShoContextProvider({ children }: IProps) {
                 category,
                 image_url,
                 price_in_cents,
-                id
+                id,
+                sales,
+                created_at
               }
               
               _allProductsMeta{
@@ -227,7 +233,9 @@ export default function ShoContextProvider({ children }: IProps) {
                   category,
                   image_url,
                   price_in_cents,
-                  id
+                  id, 
+                  sales,
+                  created_at
                 }
                 
                 _allProductsMeta(filter:$filter){

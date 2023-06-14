@@ -5,4 +5,6 @@ export interface IProduct {
   id: string;
   image_url: string;
   description: string;
+  sales: number;
+  created_at: string;
 }

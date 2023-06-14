@@ -3,7 +3,6 @@ import "./globals.css";
 import { Saira } from "next/font/google";
 import Nav from "./Nav";
 import ShoContextProvider from "@/contexts/ShopContext";
-import StyledComponentsRegistry from "./lib/registry";
 
 const inter = Saira({ subsets: ["latin"] });
 
@@ -21,10 +20,8 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.className}`}>
         <ShoContextProvider>
-          <StyledComponentsRegistry>
-            <Nav />
-            <div className="max-w-screen-lg m-auto">{children}</div>
-          </StyledComponentsRegistry>
+          <Nav />
+          <div className="max-w-screen-lg m-auto">{children}</div>
         </ShoContextProvider>
       </body>
     </html>

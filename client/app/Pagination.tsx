@@ -2,35 +2,6 @@
 import useShop from "@/hooks/useShop";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { styled } from "styled-components";
-
-const PaginationContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 8px;
-  & button {
-    background: #e9e9f0;
-    border-radius: 8px;
-    font-weight: 400;
-    font-size: 16px;
-    color: #737380;
-    width: 32px;
-    height: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    &:disabled {
-      opacity: 60%;
-    }
-    &.current {
-      background: #f5f5fa;
-      border: 1px solid #ffa585;
-      font-weight: 600;
-      color: #ffa585;
-    }
-  }
-`;
 
 export default function Pagination() {
   const { pagination, updateCurrentPage, setCurrentPage } = useShop();
@@ -45,14 +16,16 @@ export default function Pagination() {
   }, [pagination]);
 
   return (
-    <PaginationContainer>
+    <div className="flex items-center justify-end gap-2">
       <div className="numbers flex items-center justify-center gap-[2px]">
         {pages.map((number) => {
           return (
             <button
               className={`${
-                pagination.currentPage + 1 == number ? "current" : null
-              }`}
+                pagination.currentPage + 1 == number
+                  ? "bg-[#f5f5fa] border border-[#ffa585] font-semibold text-[#ffa585]"
+                  : null
+              } bg-[#e9e9f0] rounded-lg text-base font-normal text-[#737380] w-8 h-8 flex items-center justify-center`}
               key={number}
               onClick={() => setCurrentPage(number - 1)}
             >
@@ -63,7 +36,7 @@ export default function Pagination() {
       </div>
       <div className="flex items-center justify-center gap-1">
         <button
-          className="prev"
+          className="prev bg-[#e9e9f0] rounded-lg text-base font-normal text-[#737380] w-8 h-8 flex items-center justify-center disabled:opacity-60"
           onClick={() => updateCurrentPage("-")}
           disabled={pagination.currentPage <= 0 ? true : false}
         >
@@ -75,7 +48,7 @@ export default function Pagination() {
           />
         </button>
         <button
-          className="next "
+          className="next  bg-[#e9e9f0] rounded-lg text-base font-normal text-[#737380] w-8 h-8 flex items-center justify-center disabled:opacity-60"
           onClick={() => updateCurrentPage("+")}
           disabled={
             pagination.currentPage >= pagination.totalPages - 1 ? true : false
@@ -89,6 +62,6 @@ export default function Pagination() {
           />
         </button>
       </div>
-    </PaginationContainer>
+    </div>
   );
 }

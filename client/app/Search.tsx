@@ -1,30 +1,14 @@
 "use client";
-
 import Image from "next/image";
-import { styled } from "styled-components";
-
-const SearchBox = styled.form`
-  background-color: #f3f5f6;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 352px;
-  height: 42px;
-  padding: 0 16px;
-  border-radius: 8px;
-
-  & > input {
-    background: transparent;
-    font-size: 14px;
-    flex: 1;
-    outline: none;
-  }
-`;
 
 export default function Search() {
   return (
-    <SearchBox>
-      <input type="text" placeholder="Procurando por algo específico?" />
+    <form className="bg-[#f3f5f6] flex items-center justify-between w-[352px] h-[42px] px-4 rounded-lg ">
+      <input
+        className="bg-transparent text-sm flex-1 outline-none"
+        type="text"
+        placeholder="Procurando por algo específico?"
+      />
 
       <button>
         <Image
@@ -34,6 +18,6 @@ export default function Search() {
           src={"/icons/search-icon.png"}
         />
       </button>
-    </SearchBox>
+    </form>
   );
 }
