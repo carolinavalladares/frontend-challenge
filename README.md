@@ -1,3 +1,19 @@
+> Para instalar o projeto:
+
+1. Rode `yarn` na pasta _api_
+2. Rode `yarn` na pasta _client_
+
+> Para iniciar o projeto:
+
+1. Rode `yarn start` na pasta _api_
+2. Rode `yarn dev` na pasta _client_, o projeto estará rodando em _localhost:3000_
+
+> Observações:
+
+- A estilização está sendo feita com tailwindCSS
+
+### Desafio front-end Rocketseat
+
 ## Prompt do desafio:
 
 ![Protótipo](https://storage.googleapis.com/xesque-dev/challenge-images/prototipo.png?42)
