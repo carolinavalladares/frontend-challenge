@@ -56,9 +56,11 @@ export default function Product() {
 
   if (!product) {
     return (
-      <div className="flex gap-8 w-full">
+      <div className="flex gap-8 max-[945px]:max-w-[500px] max-[945px]:m-auto  max-[945px]:flex-col  max-[945px]:mb-8  mt-8">
         <div>
-          <Skeleton className={`w-[640px] h-[580px] `} />
+          <Skeleton
+            className={`w-[640px] h-[580px] max-[1140px]:w-[500px] max-[550px]:w-[300px]`}
+          />
         </div>
 
         <div className="flex flex-col w-full">
@@ -82,19 +84,19 @@ export default function Product() {
   }
 
   return (
-    <div className="flex gap-8">
-      <div>
+    <div className="flex gap-8 max-[945px]:max-w-[500px] max-[945px]:m-auto  max-[945px]:flex-col  max-[945px]:mb-8  max-[945px]:mt-8 mt-8">
+      <div className="max-[550px]:flex max-[550px]:justify-center">
         <Image
           width={640}
           height={580}
           src={product.image_url as string}
           alt={`imagem ${product.name}`}
           priority
-          className="max-w-none"
+          className="max-[1140px]:w-[500px] max-[550px]:w-[300px]"
         />
       </div>
 
-      <div className="flex flex-col">
+      <div className="flex flex-col ">
         <p className="text-[#41414D] ">
           {product.category == "mugs"
             ? "Caneca"
@@ -102,19 +104,19 @@ export default function Product() {
             ? "Camisa"
             : "Categoria"}
         </p>
-        <h2 className="font-light text-[32px] text-[#41414D] mt-3 leading-none">
+        <h2 className="font-light text-[32px] text-[#41414D] mt-3 leading-none max-[550px]:text-xl">
           {product.name}
         </h2>
-        <p className="text-[#09090A] font-semibold text-xl mt-1 ">
+        <p className="text-[#09090A] font-semibold text-xl mt-1 max-[550px]:text-lg ">
           R$ {formatPrice(product.price_in_cents)}
         </p>
 
-        <p className="text-xs text-[#41414D] mt-6 mb-14">
+        <p className="text-xs text-[#41414D] mt-6 mb-14 max-[945px]:mb-10">
           *Frete de R$40,00 para todo o Brasil. Grátis para compras acima de
           R$900,00.
         </p>
 
-        <div className="flex-1">
+        <div className="flex-1 max-[945px]:mb-10 ">
           <h3 className="font-medium text-[#737380] text-base mb-2">
             DESCRIÇÃO
           </h3>

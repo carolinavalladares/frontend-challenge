@@ -4,11 +4,11 @@ import Link from "next/link";
 
 export default async function page() {
   return (
-    <div className="mb-[89px]">
+    <div>
       <Link
         title="voltar"
         href={"/"}
-        className="mt-6 text-[#617480] text-sm font-medium flex items-center justify-center gap-2 w-fit"
+        className="mt-6 text-[#617480] text-sm font-medium flex items-center justify-center gap-2 w-fit "
       >
         <Image
           width={20}
@@ -18,7 +18,7 @@ export default async function page() {
         />
         <span>Voltar</span>
       </Link>
-      <div className="mt-6">
+      <div className="">
         <Product />
       </div>
     </div>

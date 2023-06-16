@@ -18,14 +18,14 @@ export default function Showcase() {
 
   return (
     <div className="mt-8 mb-16">
-      <div className="mb-6 flex items-center justify-between">
-        <div className="flex items-center gap-10 ">
+      <div className="mb-6 flex items-center justify-between max-[780px]:flex-col max-[780px]:items-end">
+        <div className="flex items-center gap-10 max-[780px]:gap-4 max-[780px]:justify-center max-[780px]:w-full  max-[400px]:gap-2">
           <button
             className={`${
               currentCategory == "all"
                 ? "font-semibold border-b-[#ffa585] text-[#41414d]"
                 : "border-b-transparent"
-            } uppercase text-base font-normal text-[#737380] border-b-4`}
+            } uppercase text-base font-normal text-[#737380] border-b-4 max-[780px]:text-sm `}
             onClick={(e) => handleTabs(e)}
             name="all"
           >
@@ -36,7 +36,7 @@ export default function Showcase() {
               currentCategory == "t-shirts"
                 ? "font-semibold border-b-[#ffa585] text-[#41414d]"
                 : "border-b-transparent"
-            } uppercase text-base font-normal text-[#737380] border-b-4`}
+            } uppercase text-base font-normal text-[#737380] border-b-4 max-[780px]:text-sm `}
             onClick={(e) => handleTabs(e)}
             name="t-shirts"
           >
@@ -47,7 +47,7 @@ export default function Showcase() {
               currentCategory == "mugs"
                 ? "font-semibold border-b-[#ffa585] text-[#41414d]"
                 : "border-b-transparent"
-            } uppercase text-base font-normal text-[#737380] border-b-4 `}
+            } uppercase text-base font-normal text-[#737380] border-b-4  max-[780px]:text-sm `}
             onClick={(e) => handleTabs(e)}
             name="mugs"
           >
@@ -63,13 +63,13 @@ export default function Showcase() {
 
         <div className="mt-8 mb-[74px]">
           {products.length > 0 ? (
-            <div className="grid grid-cols-4 gap-x-8 gap-y-6">
+            <div className="product-grid grid gap-x-8 gap-y-6">
               {products.map((product, index) => {
                 return <ProductCard product={product} key={index} />;
               })}
             </div>
           ) : (
-            <div className="grid grid-cols-4 gap-x-8 gap-y-6">
+            <div className="grid product-grid gap-x-8 gap-y-6">
               <Skeleton className="h-[300px] w-full" />
               <Skeleton className="h-[300px] w-full" />
               <Skeleton className="h-[300px] w-full" />
