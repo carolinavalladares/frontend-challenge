@@ -1,13 +1,11 @@
 "use client";
 
-import { IProduct } from "@/types";
+import { ICart, IProduct } from "@/types";
 import { createContext, useEffect, useState } from "react";
 
 interface IShopContext {
   products: IProduct[];
   productCount: number;
-  fetchAllProducts: () => void;
-  fetchProductsByCategory: () => void;
   updateCurrentPage: (direction: string) => void;
   pagination: { totalPages: number; currentPage: number; itemsPerPage: number };
   currentCategory: string;
@@ -15,6 +13,13 @@ interface IShopContext {
   setCurrentPage: (page: number) => void;
   order: { sortOrder?: string; sortField?: string } | null;
   updateOrder: (field: string) => void;
+  cart: ICart;
+  addToCart: (product: IProduct) => void;
+  updateItemQuantityInCart: (
+    item: { product: IProduct; quantity: number },
+    newQuantity: number
+  ) => void;
+  deleteItemInCart: (item: { product: IProduct; quantity: number }) => void;
 }
 
 interface IProps {
@@ -36,9 +41,22 @@ export default function ShoContextProvider({ children }: IProps) {
     sortOrder?: string;
     sortField?: string;
   } | null>(null);
+  const [cart, setCart] = useState<ICart>({
+    items: [],
+    total: 0,
+    shipping_price: 0,
+    subtotal: 0,
+  });
 
   useEffect(() => {
     fetchAllProducts();
+
+    const storedCart: ICart = JSON.parse(
+      localStorage.getItem("capputeeno.cart") as string
+    );
+    if (storedCart) {
+      setCart(storedCart);
+    }
   }, []);
 
   useEffect(() => {
@@ -324,13 +342,105 @@ export default function ShoContextProvider({ children }: IProps) {
     }
   };
 
+  useEffect(() => {
+    console.log(cart);
+
+    localStorage.setItem("capputeeno.cart", JSON.stringify(cart));
+  }, [cart]);
+
+  const addToCart = (product: IProduct) => {
+    const item = { product, quantity: 1 };
+
+    const itemAlreadyInCart = cart.items.find((obj) => {
+      return obj.product.name == item.product.name;
+    });
+
+    if (!itemAlreadyInCart) {
+      const cartItemsTemp = [...cart.items, { ...item }];
+
+      const valuesArr = cartItemsTemp.map(
+        (item) => item.product.price_in_cents * item.quantity
+      );
+
+      const subtotal = valuesArr.reduce((acc, current) => acc + current);
+
+      setCart({
+        ...cart,
+        subtotal: subtotal,
+        shipping_price: 4000,
+        total: subtotal + cart.shipping_price,
+        items: [...cartItemsTemp],
+      });
+    } else {
+      console.log(`${item.product.name} is already in the cart...`);
+    }
+  };
+
+  const updateItemQuantityInCart = (
+    item: { product: IProduct; quantity: number },
+    newQuantity: number
+  ) => {
+    const itemAlreadyInCart = cart.items.find((obj) => {
+      return obj.product.name == item.product.name;
+    });
+
+    if (!itemAlreadyInCart) {
+      return;
+    } else {
+      const cartItemsTemp = [...cart.items];
+      cartItemsTemp.splice(cartItemsTemp.indexOf(itemAlreadyInCart), 1, {
+        product: item.product,
+        quantity: newQuantity,
+      });
+
+      const valuesArr = cartItemsTemp.map(
+        (item) => item.product.price_in_cents * item.quantity
+      );
+      const subtotal = valuesArr.reduce((acc, current) => acc + current);
+      setCart({
+        subtotal,
+        shipping_price: 4000,
+        total: subtotal + cart.shipping_price,
+        items: [...cartItemsTemp],
+      });
+    }
+  };
+
+  const deleteItemInCart = (item: { product: IProduct; quantity: number }) => {
+    const itemAlreadyInCart = cart.items.find((obj) => {
+      return obj.product.name == item.product.name;
+    });
+
+    if (!itemAlreadyInCart) {
+      return;
+    } else {
+      const cartItemsTemp = [...cart.items];
+      cartItemsTemp.splice(cartItemsTemp.indexOf(itemAlreadyInCart), 1);
+
+      let subtotal;
+      if (cartItemsTemp.length <= 0) {
+        subtotal = 0;
+      } else {
+        const valuesArr = cartItemsTemp.map(
+          (item) => item.product.price_in_cents * item.quantity
+        );
+        subtotal = valuesArr.reduce((acc, current) => acc + current);
+      }
+
+      setCart({
+        subtotal,
+        shipping_price: 4000,
+        total: subtotal + cart.shipping_price,
+        items: [...cartItemsTemp],
+      });
+    }
+  };
+
   return (
     <ShopContext.Provider
       value={{
         products,
         productCount,
-        fetchAllProducts,
-        fetchProductsByCategory,
         updateCurrentPage,
         pagination,
         currentCategory,
@@ -338,6 +448,10 @@ export default function ShoContextProvider({ children }: IProps) {
         setCurrentPage,
         order,
         updateOrder,
+        cart,
+        addToCart,
+        updateItemQuantityInCart,
+        deleteItemInCart,
       }}
     >
       {children}

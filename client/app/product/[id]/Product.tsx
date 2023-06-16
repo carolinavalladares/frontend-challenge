@@ -5,10 +5,12 @@ import { useParams } from "next/navigation";
 import Image from "next/image";
 import formatPrice from "@/util/formatPrice";
 import Skeleton from "@/app/Skeleton";
+import useShop from "@/hooks/useShop";
 
 export default function Product() {
   const [product, setProduct] = useState<IProduct | undefined>(undefined);
   const { id } = useParams();
+  const { addToCart } = useShop();
 
   useEffect(() => {
     getProduct();
@@ -43,6 +45,13 @@ export default function Product() {
 
     const data = await resp.json();
     setProduct(data.data.Product);
+  };
+
+  const handleAddToCart = () => {
+    if (!product) {
+      return;
+    }
+    addToCart(product);
   };
 
   if (!product) {
@@ -117,6 +126,7 @@ export default function Product() {
         <button
           title={`adicionar ${product.name} ao carrinho`}
           className="uppercase text-white bg-[#115D8C] flex items-center justify-center h-11 gap-3 rounded"
+          onClick={() => handleAddToCart()}
         >
           <Image
             width={24}

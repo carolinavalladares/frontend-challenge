@@ -10,14 +10,22 @@ interface IProps {
 
 export default function ProductCard({ product }: IProps) {
   return (
-    <div className="bg-white rounded-t-lg max-w-[256px]  overflow-hidden">
+    <div
+      className="
+   productCard bg-white rounded-t-lg max-w-[256px]  overflow-hidden "
+    >
       <Link title={`${product.name}`} href={`/product/${product.id}`}>
-        <Image
-          width={256}
-          height={300}
-          src={product.image_url}
-          alt={`imagem ${product.name}`}
-        ></Image>
+        <div className="relative h-[300px] w-[256px] overflow-hidden">
+          <Image
+            width={350}
+            height={350}
+            src={product.image_url}
+            className="zoom absolute  transition-all -left-[40px] "
+            alt={`imagem ${product.name}`}
+            priority
+          />
+        </div>
+
         <div className="px-3 py-2">
           <p className="font-light text-base text-[#41414d] pb-2 border-b border-b-[#dce2e6]">
             {product.name}

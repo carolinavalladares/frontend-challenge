@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default async function page() {
   return (
-    <div>
+    <div className="mb-[89px]">
       <Link
         title="voltar"
         href={"/"}

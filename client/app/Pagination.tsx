@@ -19,7 +19,7 @@ export default function Pagination() {
   if (products.length <= 0) {
     return (
       <div className="flex items-center justify-end">
-        <Skeleton className="h-8 w-44" />
+        <Skeleton className="h-10 w-44" />
       </div>
     );
   }

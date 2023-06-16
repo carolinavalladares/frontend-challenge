@@ -25,3 +25,13 @@ body {
     )
     var(--background-start-rgb);
 }
+
+
+img{
+  height: unset;
+ max-width: unset;
+}
+
+.productCard:hover img.zoom{
+  scale: 1.1;
+}

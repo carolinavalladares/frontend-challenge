@@ -8,3 +8,15 @@ export interface IProduct {
   sales: number;
   created_at: string;
 }
+
+export interface ICartItem {
+  product: IProduct;
+  quantity: number;
+}
+
+export interface ICart {
+  items: ICartItem[];
+  subtotal: number;
+  total: number;
+  shipping_price: number;
+}

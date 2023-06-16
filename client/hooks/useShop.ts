@@ -6,8 +6,6 @@ export default function useShop() {
   const {
     products,
     productCount,
-    fetchAllProducts,
-    fetchProductsByCategory,
     updateCurrentPage,
     pagination,
     currentCategory,
@@ -15,13 +13,15 @@ export default function useShop() {
     setCurrentPage,
     order,
     updateOrder,
+    cart,
+    addToCart,
+    updateItemQuantityInCart,
+    deleteItemInCart,
   } = useContext(ShopContext);
 
   return {
     products,
     productCount,
-    fetchAllProducts,
-    fetchProductsByCategory,
     updateCurrentPage,
     pagination,
     currentCategory,
@@ -29,5 +29,9 @@ export default function useShop() {
     setCurrentPage,
     order,
     updateOrder,
+    cart,
+    addToCart,
+    updateItemQuantityInCart,
+    deleteItemInCart,
   };
 }

@@ -4,6 +4,7 @@ import { Saira_Stencil_One } from "next/font/google";
 import Link from "next/link";
 import Search from "./Search";
 import Image from "next/image";
+import useShop from "@/hooks/useShop";
 
 const sairaStencilOne = Saira_Stencil_One({
   subsets: ["latin"],
@@ -11,9 +12,10 @@ const sairaStencilOne = Saira_Stencil_One({
 });
 
 export default function Nav() {
+  const { cart } = useShop();
   return (
     <nav className="bg-white pt-[33px] pb-[23px]">
-      <div className="max-w-[1120px] m-auto flex items-center justify-between">
+      <div className="max-w-[1120px] m-auto flex items-center justify-between max-[1140px]:px-4">
         <Link title="capputeeno" href={"/"}>
           <h1
             className={`${sairaStencilOne.className} text-[#5d5d6d] font-normal text-[40px] leading-none`}
@@ -34,9 +36,11 @@ export default function Nav() {
                 height={24}
               />
 
-              {/* <div className="absolute -bottom-2 left-[15px] w-[17px] h-[17px] flex items-center justify-center text-[10px] bg-[#de3838] rounded-full text-white leading-none">
-                0
-              </div> */}
+              {cart.items.length > 0 && (
+                <div className="absolute -bottom-2 left-[15px] w-[17px] h-[17px] flex items-center justify-center text-[10px] bg-[#de3838] rounded-full text-white leading-none">
+                  {cart.items.length}
+                </div>
+              )}
             </button>
           </Link>
         </div>
